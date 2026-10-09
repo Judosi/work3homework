@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1021"><meta name="description" content="Интерактивное домашнее задание Никиты по степеням с целым показателем. Без регистрации, работает офлайн.">
+<title>Никита • Домашнее задание №12 — Степени</title>
+<style>
+:root{color-scheme:dark;--bg:#090e1b;--panel:#131c30;--line:#283751;--sub:#9db0ce;--ink:#f2f6ff;--mint:#64e3bd;--violet:#a99bff;--amber:#ffc473;--red:#ff8d9e}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:radial-gradient(ellipse 90% 40% at 55% -8%,#27376588,transparent),linear-gradient(155deg,#080d1a,#111629 70%,#080f1a);min-height:100vh}
+button,input,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #71d9e8;outline-offset:3px}button:disabled{cursor:not-allowed;opacity:.45}sup{font-size:.68em;vertical-align:super;line-height:0}sub{font-size:.7em}
+.shell{max-width:1040px;margin:0 auto;padding:28px 18px 90px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:26px}.brand{display:flex;gap:12px;align-items:center;font-weight:850;letter-spacing:.07em;font-size:14px}.logo{background:linear-gradient(135deg,#5b7feb,#9a87ff);width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:23px}.chip{border:1px solid #43667c;color:#a8ebdf;border-radius:40px;font-size:11px;letter-spacing:.07em;padding:9px 12px;background:#15313c88;font-weight:800;white-space:nowrap}
+.card{border:1px solid var(--line);background:linear-gradient(135deg,#17223a 0%,#10182a 60%,#141b31 100%);border-radius:24px;box-shadow:0 18px 55px #0002;overflow:hidden}.intro{position:relative;padding:35px 40px 28px;isolation:isolate}.intro:before{content:"";position:absolute;right:-70px;top:-160px;width:430px;height:430px;border-radius:50%;background:radial-gradient(circle,#8c78ed3d,transparent 67%);z-index:-1}.eyebrow{color:var(--mint);letter-spacing:.16em;font-size:11px;font-weight:900;text-transform:uppercase}.hero-title{font-weight:870;font-size:clamp(31px,6vw,54px);letter-spacing:-.05em;line-height:1.09;margin:14px 0}.hero-title em{font-style:normal;color:var(--violet)}.lead{max-width:690px;line-height:1.65;color:#c0cce1;font-size:15px}.statrow{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}.stat{display:flex;align-items:center;gap:7px;border:1px solid #34445e;border-radius:10px;padding:9px 12px;color:#c8d4ed;background:#111d33;font-size:12px}
+.field{display:block;margin:20px 0 8px;font-weight:750;font-size:13px}.fieldinp{width:100%;max-width:450px;border:1px solid #415371;border-radius:12px;background:#0b1427;color:#fff;font-size:17px;padding:15px 17px}.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:23px 0}.rule{background:#0d182b;border:1px solid #2f415e;padding:15px;border-radius:13px}.rule b{display:block;margin-bottom:6px;font-size:13px}.rule p{color:#a6b7d1;font-size:12px;line-height:1.5;margin:0}.primary{border:0;background:linear-gradient(105deg,#75e9ca,#92d4f1);color:#10263a;border-radius:12px;padding:14px 22px;font-weight:850;box-shadow:0 6px 20px #48c1ce25}.ghost{border:1px solid #405476;background:#1a2943;color:#e3edff;border-radius:12px;padding:13px 16px;font-weight:750}.subtlebtn{border:1px solid #394866;background:transparent;color:#bac9e4;border-radius:10px;padding:9px 12px;font-size:12px;font-weight:750}.error{color:#ff9cad;min-height:20px;font-size:12px;margin:6px 0}
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) 248px;gap:17px;align-items:start}.maincard{padding:27px 30px}.progress-header{display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:12px;color:#a5b8d8;font-weight:750}.progress{width:100%;height:9px;border-radius:100px;background:#2a344d;overflow:hidden;margin:13px 0 28px}.progressfill{height:100%;width:0;background:linear-gradient(90deg,#67e9bb,#a391ff);transition:width .35s;border-radius:100px}.section{font-size:11px;letter-spacing:.12em;color:var(--mint);font-weight:900;text-transform:uppercase;margin-bottom:13px}.qtitle{font-size:clamp(22px,3.2vw,29px);line-height:1.38;font-weight:750;letter-spacing:-.015em;margin:0 0 15px}.qdesc{font-size:14px;color:#b8c8df;line-height:1.65;margin:0 0 20px}.math{font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.25em;letter-spacing:.018em;white-space:nowrap}.choices{display:grid;gap:11px;margin:17px 0 24px}.opt{display:flex;text-align:left;align-items:center;gap:13px;padding:14px 15px;border:1px solid #3b4d6a;border-radius:13px;background:#111b2f;color:#f2f6ff;width:100%;min-height:60px;transition:background .15s,border-color .15s}.opt:hover:not(:disabled){border-color:#a99bff;background:#1b2944}.opt.sel{background:#28254a;border-color:#aa9cff;box-shadow:inset 0 0 0 1px #aa9cff66}.opt.answered.good{background:#113c35;border-color:#50cf9a}.opt.answered.bad{background:#4a2636;border-color:#e4758c}.opt:disabled{opacity:1;cursor:default}.letter{flex:0 0 auto;width:33px;height:33px;border-radius:10px;background:#243653;display:grid;place-items:center;font-weight:900;color:#cdd9f0}.opt .math{font-size:1.26em}.answer-input{background:#0b1427;border:1px solid #485c7a;border-radius:13px;color:#f5f7ff;min-height:58px;width:100%;max-width:460px;font-size:22px;padding:13px 16px;font-variant-numeric:tabular-nums}.answer-input::placeholder{font-size:15px;color:#657a9a}.textbox{background:#0b1427;border:1px solid #475a77;border-radius:13px;color:#fff;width:100%;padding:14px;resize:vertical;min-height:145px;line-height:1.6;font-size:15px}.answer-tip{font-size:12px;color:#a5b7d0;margin:10px 0 22px}.actions{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:22px;flex-wrap:wrap}.feedback{padding:18px 19px;border-radius:15px;background:#142d35;border:1px solid #366e69;margin-top:20px}.feedback.err{background:#3a2332;border-color:#854459}.feedback.manual{background:#272b48;border-color:#555e93}.fbhead{font-size:17px;font-weight:850;margin-bottom:8px}.fbexplain{line-height:1.65;font-size:14px;color:#d8e2f4}.locknote{color:#b4c4dd;font-size:12px}.warnnote{background:#352b1e;border:1px solid #66502f;border-radius:12px;color:#ffdfaa;padding:11px 13px;font-size:12px;line-height:1.55;margin-top:15px}
+.aside{padding:19px;position:sticky;top:18px}.aside-label{font-size:11px;letter-spacing:.1em;color:#8fa3c3;font-weight:850}.numberbig{font-size:40px;font-weight:900;letter-spacing:-.05em;margin:7px 0}.numberbig span{font-size:16px;color:#8295b3}.minor{color:#9fb1cb;font-size:12px;line-height:1.55}.divider{height:1px;background:#2b3b53;margin:18px 0}.dots{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:16px 0}.dot{height:26px;border-radius:7px;background:#26344c;display:grid;place-items:center;font-size:10px;color:#afbdd3;font-weight:850;border:1px solid transparent}.dot.done{background:#17483e;color:#a6f8d1}.dot.wrong{background:#4b2635;color:#ffb9c5}.dot.current{border-color:#8b7ef5;box-shadow:inset 0 0 0 1px #8176ff}.dot.manual{background:#33335b;color:#e0dfff}
+.result-title{font-size:clamp(26px,5vw,42px);font-weight:900;line-height:1.15;letter-spacing:-.04em}.bigscore{font-size:72px;letter-spacing:-.08em;color:#7ceecb;font-weight:900;margin:8px 0}.bigscore small{font-size:24px;color:#a6b5d0}.result-banner{background:#112c34;border:1px solid #2b6665;border-radius:17px;padding:20px;margin:23px 0}.result-columns{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin:20px 0}.result-pill{background:#0d192c;border:1px solid #304561;border-radius:12px;padding:15px}.result-pill small{font-size:11px;color:#9bb1cf;display:block;margin-bottom:5px}.result-pill strong{font-size:19px}.endactions{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0}.endactions button{flex:1;min-width:150px}.report-table{margin:20px 0;display:grid;gap:8px}.report-row{padding:14px;background:#0d182b;border:1px solid #2c405f;border-radius:12px;line-height:1.5}.report-row b{font-size:13px}.report-row p{font-size:12px;color:#b4c8dc;margin:5px 0;overflow-wrap:anywhere}.report-row .answer{color:#e8f3ff}.foot{margin-top:21px;padding:12px 2px;color:#8396b3;font-size:11px;line-height:1.5}.hidden{display:none!important}
+@media(max-width:740px){.workspace{grid-template-columns:minmax(0,1fr)}.aside{position:static;order:-1}.aside .divider,.aside .aside-label,.aside .minor{display:none}.aside{padding:13px 17px}.aside .numberbig{font-size:24px;display:inline-block;margin:0 12px 0 0}.dots{display:flex;gap:4px;margin:10px 0 0}.dot{flex:1;height:9px;min-width:0;font-size:0;border-radius:5px}.intro{padding:27px 22px}.maincard{padding:24px 20px}.rules{grid-template-columns:1fr;gap:8px}.rule{padding:12px}.shell{padding:16px 12px 70px}.top{margin-bottom:17px}.result-columns{grid-template-columns:1fr}.bigscore{font-size:57px}.chip{padding:7px 9px;font-size:10px}}
+@media(max-width:740px){.aside{padding:13px 17px;display:grid;grid-template-columns:1fr 1fr;gap:9px 12px}.aside .numberbig{font-size:23px;display:block;margin:0;line-height:1.15}.aside #sideProgress{grid-column:1;grid-row:1;text-align:left}.aside #sideScore{grid-column:2;grid-row:1;text-align:right}.aside .dots{grid-column:1/-1;grid-row:2;display:flex;gap:4px;margin:0}.aside #saveDraftBtn{grid-column:1/-1;grid-row:3;justify-self:end;padding:7px 11px}.aside .dot{flex:1;height:9px;min-width:0;font-size:0;border-radius:5px}}
+@media print{*{color:#111!important;box-shadow:none!important}body{background:#fff!important}.top,.aside,.actions,.endactions,.foot,.no-print{display:none!important}.shell{padding:0;max-width:100%}.card,.maincard,.result-banner,.report-row,.result-pill{background:white!important;border:1px solid #ccc!important;break-inside:avoid}.workspace{display:block}.maincard{padding:10px}.result-columns{grid-template-columns:1fr 1fr}.report-row{margin:5px 0}.intro{display:none!important}}
+.vfrac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;font-family:"Cambria Math",Cambria,Georgia,serif;font-size:.95em;white-space:nowrap;margin:0 .15em}.vfrac>span:first-child{border-bottom:1.6px solid currentColor;padding:0 .15em .17em}.vfrac>span:last-child{padding:.17em .15em 0}</style>
+</head>
+<body><div class="shell">
+<header class="top"><div class="brand"><div class="logo">x⁻²</div><span>МАТЕМАТИКА / 8 КЛАСС</span></div><span class="chip">ДЗ • УРОК 12</span></header>
+<section id="intro" class="card intro">
+ <div class="eyebrow">Интерактивная домашняя работа</div>
+ <h1 class="hero-title">Степени.<br><em>Приручи минус.</em></h1>
+ <p class="lead">Нулевая и отрицательная степени, дроби, знаки, произведение и частное степеней. Здесь важно не угадать ответ, а разобраться в правилах. В конце ты получишь отчёт для преподавателя.</p>
+ <div class="statrow"><span class="stat">◈ 24 задания</span><span class="stat">◷ 40–50 минут</span><span class="stat">✓ 20 автоматических проверок</span><span class="stat">✎ 4 письменных объяснения</span></div>
+ <label class="field" for="studentName">Как тебя зовут?</label>
+ <input class="fieldinp" id="studentName" maxlength="60" value="Никита" autocomplete="name" placeholder="Имя ученика">
+ <p id="startError" class="error"></p>
+ <div class="rules"><div class="rule"><b>01 · Решай самостоятельно</b><p>Можно пользоваться тетрадью и черновиком. Калькулятор постарайся не использовать.</p></div><div class="rule"><b>02 · Фиксируй ответ</b><p>После подтверждения исправить ответ в этой попытке нельзя. Если ошибся — прочитай объяснение.</p></div><div class="rule"><b>03 · Отправь отчёт</b><p>После всех заданий скачай отчёт или поделись им с преподавателем. Не закрывай страницу до отправки.</p></div></div>
+ <button class="primary" id="startBtn">Начать домашнюю работу →</button>
+ <p class="foot">Никаких аккаунтов, рекламы или отправки ответов на сервер. Всё работает в браузере, даже без интернета. Если открыть файл заново в другом приложении, сохранение прогресса может не перенестись.</p>
+</section>
+<section id="workspace" class="workspace hidden" aria-live="polite">
+ <main class="card maincard" id="questionCard"><div class="progress-header"><span id="qCounter">Задание 1 из 24</span><span id="qPercent">0% выполнено</span></div><div class="progress"><div class="progressfill" id="progressFill"></div></div><div class="section" id="qSection"></div><h2 class="qtitle" id="qTitle"></h2><p class="qdesc" id="qDesc"></p><div id="answerArea"></div><p class="error" id="answerError"></p><div id="feedback" class="feedback hidden"></div><div class="actions"><span class="locknote" id="lockNote">Один ответ на задание</span><button id="submitBtn" class="primary">Проверить ответ →</button><button id="nextBtn" class="primary hidden">Следующее задание →</button></div></main>
+ <aside class="card aside"><div class="aside-label">ПРОГРЕСС НИКИТЫ</div><div class="numberbig" id="sideProgress">0<span> / 24</span></div><div class="minor">Зелёный — верно, красный — ошибка, фиолетовый — письменная работа.</div><div id="dots" class="dots"></div><div class="divider"></div><div class="aside-label">АВТОПРОВЕРКА</div><div class="numberbig" id="sideScore">0<span> / 20</span></div><div class="minor">Открытые ответы преподаватель проверит отдельно. Ошибки — повод повторить правила.</div><div class="divider"></div><button class="subtlebtn" id="saveDraftBtn" type="button">Сохранить промежуточный отчёт</button></aside>
+</section>
+<section id="results" class="card maincard hidden">
+ <div class="eyebrow">Миссия выполнена</div><h2 class="result-title">Домашняя работа<br>завершена!</h2><div class="result-banner"><div class="eyebrow">АВТОМАТИЧЕСКАЯ ЧАСТЬ</div><div class="bigscore" id="finalScore">0<small> / 20</small></div><div id="finalRemark" class="lead"></div></div>
+ <div class="result-columns"><div class="result-pill"><small>УЧЕНИК</small><strong id="resultName"></strong></div><div class="result-pill"><small>ПИСЬМЕННЫЕ ЗАДАНИЯ</small><strong>4 ждут проверки</strong></div><div class="result-pill"><small>НАЧАЛО</small><strong id="resultStart"></strong></div><div class="result-pill"><small>ЗАВЕРШЕНИЕ</small><strong id="resultEnd"></strong></div></div>
+ <h3>Отправь результат преподавателю</h3><p class="lead">Нажми «Поделиться отчётом» на телефоне или «Скачать отчёт». В файле будут все 24 ответа, результат автоматической проверки и четыре развёрнутых решения.</p>
+ <div class="endactions no-print"><button class="primary" id="shareBtn">↗ Поделиться отчётом</button><button class="ghost" id="downloadBtn">↓ Скачать отчёт (.txt)</button><button class="ghost" id="copyBtn">▣ Скопировать отчёт</button><button class="ghost" id="printBtn">⎙ Печать / PDF</button></div>
+ <p class="error" id="resultMsg" role="status"></p><h3>Обзор выполненной работы</h3><div id="reportPreview" class="report-table"></div>
+ <p class="warnnote">Этот файл работает офлайн: ответы никуда автоматически не отправляются. Обязательно отправь преподавателю отчёт. Итоговая оценка появится после проверки письменных объяснений.</p><div class="foot">Математика • 8 класс • Тема: степень с целым показателем • Домашняя работа №12</div>
+</section>
+</div>
+<script>
+'use strict';
+const QUESTIONS=[
+ {section:'Разминка',kind:'number',q:'Вычисли: <span class="math">7<sup>0</sup></span>',desc:'В ответе запиши одно число.',answer:[1,1],explain:'Нулевая степень любого ненулевого числа равна 1: 7⁰ = 1.'},
+ {section:'Разминка',kind:'number',q:'Вычисли: <span class="math">(−12)<sup>0</sup></span>',desc:'Обрати внимание: всё основание заключено в скобки.',answer:[1,1],explain:'Основание −12 не равно нулю, поэтому (−12)⁰ = 1.'},
+ {section:'Разминка',kind:'number',q:'Запиши без отрицательного показателя: <span class="math">2<sup>−4</sup></span>',desc:'Напиши точную дробь, например 1/5.',answer:[1,16],explain:'2⁻⁴ = 1/2⁴ = 1/16. Отрицательная степень означает обратное число.'},
+ {section:'Разминка',kind:'number',q:'Вычисли: <span class="math">(−2)<sup>−3</sup></span>',desc:'Ответ можно записать обычной дробью.',answer:[-1,8],explain:'(−2)⁻³ = 1/(−2)³ = −1/8. Нечётная степень отрицательного числа отрицательна.'},
+ {section:'Разминка',kind:'choice',q:'Чему равно выражение <span class="math">−3<sup>−2</sup></span>?',desc:'Минус перед тройкой находится вне степени.',options:['1/9','−1/9','−9','9'],correct:1,explain:'−3⁻² = −(3⁻²) = −1/9. Скобок вокруг −3 нет, значит знак минус остаётся снаружи.'},
+ {section:'Разминка',kind:'number',q:'Вычисли: <span class="math">(3/4)<sup>−2</sup></span>',desc:'Ответ запиши точной дробью.',answer:[16,9],explain:'(3/4)⁻² = (4/3)² = 16/9: сначала переворачиваем дробь, затем возводим в квадрат.'},
+ {section:'Применяем правила',kind:'number',q:'Вычисли: <span class="math">(−2/5)<sup>−2</sup></span>',desc:'Проверь, положительный или отрицательный получится результат.',answer:[25,4],explain:'(−2/5)⁻² = (−5/2)² = 25/4. Чётная степень делает результат положительным.'},
+ {section:'Применяем правила',kind:'number',q:'Вычисли: <span class="math">5<sup>−1</sup> + 10<sup>−1</sup></span>',desc:'Ответ запиши дробью.',answer:[3,10],explain:'5⁻¹ + 10⁻¹ = 1/5 + 1/10 = 2/10 + 1/10 = 3/10.'},
+ {section:'Применяем правила',kind:'number',q:'Вычисли: <span class="math">2<sup>5</sup> · 2<sup>−7</sup></span>',desc:'Сначала примени правило умножения степеней.',answer:[1,4],explain:'2⁵ · 2⁻⁷ = 2⁵⁻⁷ = 2⁻² = 1/4.'},
+ {section:'Применяем правила',kind:'number',q:'Вычисли: <span class="math">3<sup>−1</sup> : 3<sup>−3</sup></span>',desc:'Деление степеней с одинаковым основанием.',answer:[9,1],explain:'3⁻¹ : 3⁻³ = 3⁻¹⁻⁽⁻³⁾ = 3² = 9. При делении показатели вычитаются.'},
+ {section:'Применяем правила',kind:'number',q:'Вычисли: <span class="math">10<sup>0</sup> + 4<sup>−1</sup></span>',desc:'Ответ запиши целым числом или дробью.',answer:[5,4],explain:'10⁰ + 4⁻¹ = 1 + 1/4 = 5/4.'},
+ {section:'Применяем правила',kind:'choice',q:'Можно ли вычислить <span class="math">0<sup>−3</sup></span>?',desc:'Выбери один точный ответ.',options:['Да, это 0','Да, это −3','Да, это 1','Нет, выражение не определено'],correct:3,explain:'0⁻³ означало бы 1/0³ = 1/0. На ноль делить нельзя, поэтому выражение не определено.'},
+ {section:'Применяем правила',kind:'number',q:'Какой показатель пропущен? <span class="math">2<sup>□</sup> = 1/32</span>',desc:'Введи только показатель степени.',answer:[-5,1],explain:'32 = 2⁵, значит 1/32 = 2⁻⁵. Пропущен показатель −5.'},
+ {section:'Применяем правила',kind:'number',q:'Найди показатель <span class="math">x</span>: <span class="math">4<sup>3</sup> : 4<sup>x</sup> = 4<sup>5</sup></span>',desc:'Введи только число x.',answer:[-2,1],explain:'При делении показатели вычитаются: 3 − x = 5, поэтому x = −2.'},
+ {section:'Сравнение и внимательность',kind:'choice',q:'Какой знак верный? <span class="math">2<sup>−3</sup> □ 3<sup>−2</sup></span>',desc:'Сначала вычисли значения обеих степеней.',options:['<','>','=','Нельзя сравнить'],correct:1,explain:'2⁻³ = 1/8, а 3⁻² = 1/9. Так как 1/8 > 1/9, правильный знак — >.'},
+ {section:'Сравнение и внимательность',kind:'choice',q:'Выбери верное утверждение.',desc:'Разберись со знаком минус перед степенью и внутри скобок.',options:['(−2)⁻² = −1/4, а −2⁻² = 1/4','(−2)⁻² = 1/4, а −2⁻² = −1/4','Оба выражения равны −4','Оба выражения равны 1/4'],correct:1,explain:'(−2)⁻² = 1/(−2)² = 1/4. Но −2⁻² = −(2⁻²) = −1/4. Скобки меняют смысл.'},
+ {section:'Сложнее',kind:'number',q:'Вычисли: <span class="math">(2<sup>−3</sup> · 2<sup>5</sup>) : 2<sup>−1</sup></span>',desc:'Сначала упрости степень, а затем найди число.',answer:[8,1],explain:'Показатель равен −3 + 5 − (−1) = 3. Получаем 2³ = 8.'},
+ {section:'Сложнее',kind:'number',q:'Найди <span class="math">x</span>, если <span class="math">2<sup>x</sup> · 2<sup>−4</sup> = 8</span>',desc:'Введи только число x.',answer:[7,1],explain:'8 = 2³. Значит x − 4 = 3 и x = 7.'},
+ {section:'Сложнее',kind:'number',q:'Вычисли: <span class="math">3<sup>−2</sup> · 3<sup>4</sup> : 3<sup>1</sup></span>',desc:'Используй оба правила: сложение и вычитание показателей.',answer:[3,1],explain:'−2 + 4 − 1 = 1, значит выражение равно 3¹ = 3.'},
+ {section:'Сложнее',kind:'choice',q:'Как правильно объяснить смысл <span class="math">a<sup>−n</sup></span> при <span class="math">a ≠ 0</span>?',desc:'Выбери математически верное правило.',options:['Это всегда отрицательное число','Это 1/aⁿ','Это −aⁿ','Это 0, если n больше нуля'],correct:1,explain:'При a ≠ 0 верно a⁻ⁿ = 1/aⁿ. Знак результата зависит от основания и показателя, а не от минуса в показателе.'},
+ {section:'Объясни как математик',kind:'text',q:'Найди ошибку в рассуждении',desc:'Ученик написал: «(−3)⁻² = −1/9, потому что в показателе стоит минус». Объясни, где ошибка, и напиши правильный результат.',prompt:'Напиши не только ответ, но и объяснение, почему знак другой.',explain:'Проверяется преподавателем: важно различить минус в показателе и знак основания.'},
+ {section:'Объясни как математик',kind:'text',q:'Можно ли так складывать степени?',desc:'Одноклассник утверждает: «2⁻¹ + 2⁻² = 2⁻³». Верно ли это? Вычисли обе части и объясни, почему.',prompt:'Сравни левую и правую части. Напиши рассуждение.',explain:'Проверяется преподавателем: свойства умножения и деления степеней нельзя переносить на сложение.'},
+ {section:'Объясни как математик',kind:'text',q:'Упрости выражение без отрицательных степеней',desc:'Для <span class="math">a ≠ 0</span> упрости <span class="math">a<sup>3</sup> : a<sup>5</sup></span>. Запиши ход решения и итог без отрицательного показателя.',prompt:'Покажи минимум два шага преобразования.',explain:'Проверяется преподавателем: 3 − 5 = −2, затем a⁻² = 1/a² при a ≠ 0.'},
+ {section:'Задание со звёздочкой',kind:'text',q:'Придумай свой математический капкан',desc:'Составь два очень похожих выражения со степенями, которые из-за скобок дают разные ответы (например, с отрицательным основанием). Вычисли оба и объясни разницу.',prompt:'Запиши два выражения, два результата и объяснение.',explain:'Проверяется преподавателем: два корректных выражения, точные ответы, объяснение роли скобок.'}
+];
+const AUTO_COUNT=QUESTIONS.filter(x=>x.kind!=='text').length;
+const STORE_KEY='nikita-homework-12-powers-v3';
+let data={name:'Никита',startedAt:null,finishedAt:null,answers:[],index:0};
+let selected=null;
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function stackMath(html){return String(html).replace(/([−-]?(?:\d+|[a-zA-Z]))\/([−-]?(?:\d+|[a-zA-Z][⁰¹²³⁴⁵⁶⁷⁸⁹⁻ⁿˣ]*))/g,function(_,n,d){return '<span class="vfrac"><span>'+n+'</span><span>'+d+'</span></span>'})}
+function plain(s){const el=document.createElement('div');el.innerHTML=s;el.querySelectorAll('sup').forEach(sup=>sup.replaceWith('^('+sup.textContent+')'));return el.textContent.trim()}
+function load(){try{const raw=localStorage.getItem(STORE_KEY);if(raw){const p=JSON.parse(raw);if(p&&Array.isArray(p.answers)&&p.answers.length<=QUESTIONS.length&&typeof p.name==='string'){data=p;data.index=Math.min(QUESTIONS.length,Math.max(0,data.answers.length));return true}}}catch(e){}return false}
+function save(){try{localStorage.setItem(STORE_KEY,JSON.stringify(data))}catch(e){}}
+function current(){return QUESTIONS[data.index]}
+function autoScore(){return data.answers.filter((a,i)=>a&&QUESTIONS[i].kind!=='text'&&a.correct===true).length}
+function progress(){return data.answers.length}
+function normalize(raw){let x=String(raw).trim().replace(/\s/g,'').replace(/[−–—]/g,'-').replace(/,/g,'.');if(!/^[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:\/[+-]?(?:\d+(?:\.\d+)?|\.\d+))?$/.test(x))return null;const split=x.split('/').map(Number);const val=split.length===2?split[0]/split[1]:split[0];return Number.isFinite(val)?val:null}
+function correctNumeric(raw,ans){const v=normalize(raw);return v!==null&&Math.abs(v-ans[0]/ans[1])<1e-7}
+function showIntro(){ $('intro').classList.remove('hidden');$('workspace').classList.add('hidden');$('results').classList.add('hidden');$('studentName').value=data.name||'Никита'}
+function refreshSide(){
+ $('sideProgress').innerHTML=progress()+'<span> / '+QUESTIONS.length+'</span>';
+ $('sideScore').innerHTML=autoScore()+'<span> / '+AUTO_COUNT+'</span>';
+ $('qCounter').textContent='Задание '+(data.index+1)+' из '+QUESTIONS.length;
+ $('qPercent').textContent=Math.round(progress()/QUESTIONS.length*100)+'% выполнено';
+ $('progressFill').style.width=(progress()/QUESTIONS.length*100)+'%';
+ const dots=$('dots');dots.innerHTML='';
+ QUESTIONS.forEach((q,i)=>{const el=document.createElement('span');el.className='dot';el.textContent=i+1;if(i<data.answers.length){el.classList.add(q.kind==='text'?'manual':data.answers[i].correct?'done':'wrong')}if(i===data.index)el.classList.add('current');dots.append(el)})
+}
+function renderQuestion(){
+ if(data.index>=QUESTIONS.length){renderResults();return}
+ $('intro').classList.add('hidden');$('results').classList.add('hidden');$('workspace').classList.remove('hidden');
+ const q=current();selected=null;
+ $('qSection').textContent=q.section+'  /  '+(q.kind==='text'?'развёрнутый ответ':q.kind==='choice'?'выбор ответа':'самостоятельный ввод');
+ $('qTitle').innerHTML=stackMath(q.q);$('qDesc').innerHTML=stackMath(q.desc);
+ const area=$('answerArea');area.innerHTML='';
+ $('answerError').textContent='';$('feedback').className='feedback hidden';$('feedback').innerHTML='';
+ $('submitBtn').classList.remove('hidden');$('nextBtn').classList.add('hidden');
+ $('lockNote').textContent=q.kind==='text'?'Задание проверит преподаватель':'После проверки ответ изменить нельзя';
+ if(q.kind==='choice'){
+  const wrapper=document.createElement('div');wrapper.className='choices';
+  q.options.forEach((option,i)=>{
+   const btn=document.createElement('button');btn.type='button';btn.className='opt';btn.innerHTML='<span class="letter">'+['А','Б','В','Г'][i]+'</span><span>'+stackMath(esc(option))+'</span>';
+   btn.addEventListener('click',()=>{selected=i;wrapper.querySelectorAll('.opt').forEach((e,k)=>e.classList.toggle('sel',k===i))});wrapper.append(btn);
+  });area.append(wrapper);
+ }else if(q.kind==='number'){
+  const input=document.createElement('input');input.type='text';input.id='numericAnswer';input.className='answer-input';input.autocomplete='off';input.setAttribute('inputmode','decimal');input.placeholder='Например: 1/4 или −3';input.maxLength=50;
+  const tip=document.createElement('div');tip.className='answer-tip';tip.textContent='Можно писать дробь через / (например, −1/8). Используй точный ответ, а не округление.';
+  input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submitAnswer()}});area.append(input,tip);
+ }else{
+  const text=document.createElement('textarea');text.className='textbox';text.id='writtenAnswer';text.placeholder=q.prompt;text.maxLength=2500;text.setAttribute('aria-label','Письменное объяснение');const tip=document.createElement('div');tip.className='answer-tip';tip.textContent='Здесь оценивается ход рассуждений. Достаточно 2–5 содержательных предложений.';area.append(text,tip);
+ }
+ refreshSide();
+ window.scrollTo({top:0,behavior:'instant'});
+}
+function submitAnswer(){
+ if(data.index>=QUESTIONS.length||data.answers.length!==data.index)return;
+ const q=current();let answer,correct=null;
+ if(q.kind==='choice'){
+  if(selected===null){$('answerError').textContent='Выбери один из вариантов ответа.';return}
+  answer=q.options[selected];correct=selected===q.correct;
+ }else if(q.kind==='number'){
+  answer=$('numericAnswer').value.trim();if(normalize(answer)===null){$('answerError').textContent='Введи число или дробь, например 3/4, −2 или 0,25.';return}
+  correct=correctNumeric(answer,q.answer);
+ }else{
+  answer=$('writtenAnswer').value.trim();if(answer.length<25){$('answerError').textContent='Напиши объяснение подробнее (хотя бы 25 символов).';return}
+ }
+ const item={answer,correct,at:new Date().toISOString()};data.answers.push(item);save();
+ $('answerError').textContent='';
+ $('answerArea').querySelectorAll('button,input,textarea').forEach(el=>el.disabled=true);
+ if(q.kind==='choice')$('answerArea').querySelectorAll('.opt').forEach((el,i)=>{el.classList.add('answered');if(i===q.correct)el.classList.add('good');else if(i===selected)el.classList.add('bad')});
+ const fb=$('feedback');fb.className='feedback '+(q.kind==='text'?'manual':correct?'':'err');
+ const heading=q.kind==='text'?'✎ Ответ записан и ждёт проверки':correct?'✓ Верно! Отличная работа.':'✕ Есть ошибка — разберём правило';
+ fb.innerHTML='<div class="fbhead">'+heading+'</div><div class="fbexplain">'+stackMath(esc(q.explain))+'</div>';
+ $('submitBtn').classList.add('hidden');$('nextBtn').classList.remove('hidden');
+ $('nextBtn').textContent=data.index===QUESTIONS.length-1?'Завершить и получить отчёт →':'Следующее задание →';
+ $('lockNote').textContent='🔒 Ответ сохранён и заблокирован';
+ refreshSide();
+}
+function nextQuestion(){if(data.answers.length!==data.index+1)return;data.index++;if(data.index>=QUESTIONS.length)data.finishedAt=new Date().toISOString();save();if(data.index>=QUESTIONS.length)renderResults();else renderQuestion()}
+function reportText(){
+ const parts=['ДОМАШНЕЕ ЗАДАНИЕ №12 — СТЕПЕНИ С ЦЕЛЫМ ПОКАЗАТЕЛЕМ','Ученик: '+data.name,'Начало: '+localDate(data.startedAt),'Отчёт сформирован: '+localDate(new Date().toISOString()),'Выполнено: '+data.answers.length+' из '+QUESTIONS.length,'Автоматическая проверка: '+autoScore()+' правильных из '+data.answers.filter((a,i)=>a&&QUESTIONS[i].kind!=='text').length+' выполненных автоматических заданий','Развёрнутые ответы: '+data.answers.filter((a,i)=>a&&QUESTIONS[i].kind==='text').length+'; проверяются преподавателем','', 'Ответы ученика:'];
+ data.answers.forEach((entry,i)=>{const q=QUESTIONS[i];parts.push('',String(i+1)+'. '+plain(q.q),q.desc?'Условие: '+plain(q.desc):'', 'Ответ: '+entry.answer, 'Проверка: '+(q.kind==='text'?'ПРОВЕРИТЬ ПРЕПОДАВАТЕЛЮ':entry.correct?'ВЕРНО':'ОШИБКА'), 'Комментарий: '+q.explain)});
+ parts.push('','Конец отчёта. Этот отчёт сформирован локально. Целостность ответов без сервера не подтверждается.');
+ return parts.join('\n');
+}
+function localDate(v){if(!v)return '—';try{return new Date(v).toLocaleString('ru-RU',{dateStyle:'medium',timeStyle:'short'})}catch(e){return v}}
+function filename(){return 'Никита_ДЗ12_результат_'+new Date().toISOString().slice(0,10)+'.txt'}
+function download(text){const blob=new Blob(['\uFEFF'+text],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename();document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000)}
+function renderResults(){
+ $('intro').classList.add('hidden');$('workspace').classList.add('hidden');$('results').classList.remove('hidden');
+ $('finalScore').innerHTML=autoScore()+'<small> / '+AUTO_COUNT+'</small>';
+ $('finalRemark').textContent=autoScore()===AUTO_COUNT?'Все задания с автоматической проверкой решены верно. Осталось проверить письменные объяснения.':autoScore()>=16?'Хорошая работа! Есть несколько ошибок — посмотри объяснения и обсуди их на уроке.':'Часть правил стоит закрепить. Ошибки помогут понять, что повторить перед следующим занятием.';
+ $('resultName').textContent=data.name;$('resultStart').textContent=localDate(data.startedAt);$('resultEnd').textContent=localDate(data.finishedAt||new Date().toISOString());
+ const container=$('reportPreview');container.innerHTML='';
+ data.answers.forEach((r,i)=>{const q=QUESTIONS[i];const div=document.createElement('div');div.className='report-row';
+  const status=q.kind==='text'?'✎ Проверит преподаватель':r.correct?'✓ Верно':'✕ Ошибка';
+  div.innerHTML='<b>№'+(i+1)+' · '+stackMath(esc(plain(q.q)))+' · '+status+'</b><p class="answer">Ответ: '+stackMath(esc(r.answer))+'</p><p>'+stackMath(esc(q.explain))+'</p>';container.append(div);
+ });window.scrollTo({top:0,behavior:'instant'});
+}
+async function copyReport(){const txt=reportText();try{await navigator.clipboard.writeText(txt);$('resultMsg').textContent='Отчёт скопирован. Вставь его в сообщение преподавателю.'}catch(e){download(txt);$('resultMsg').textContent='Копирование недоступно — отчёт скачан файлом.'}}
+async function shareReport(){const txt=reportText();const file=new File(['\uFEFF'+txt],filename(),{type:'text/plain'});
+ try{if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Домашняя работа Никиты №12',text:'Результат домашней работы по теме «Степени»'});return}
+ if(navigator.share){await navigator.share({title:'Домашняя работа Никиты №12',text:txt});return}}
+ catch(e){if(e&&e.name==='AbortError')return}
+ download(txt);$('resultMsg').textContent='Функция отправки в этом браузере недоступна — отчёт скачан. Прикрепи файл к сообщению преподавателю.';
+}
+$('startBtn').addEventListener('click',()=>{const name=$('studentName').value.trim();if(name.length<2){$('startError').textContent='Укажи своё имя (не менее 2 символов).';return}data={name,startedAt:new Date().toISOString(),finishedAt:null,answers:[],index:0};save();renderQuestion()});
+$('submitBtn').addEventListener('click',submitAnswer);$('nextBtn').addEventListener('click',nextQuestion);
+$('copyBtn').addEventListener('click',copyReport);$('shareBtn').addEventListener('click',shareReport);$('downloadBtn').addEventListener('click',()=>download(reportText()));$('printBtn').addEventListener('click',()=>window.print());
+$('saveDraftBtn').addEventListener('click',()=>download(reportText()));
+if(load()&&data.startedAt){
+ if(data.index>=QUESTIONS.length){renderResults()}
+ else if(data.answers.length===data.index){renderQuestion()}
+ else{data.index=data.answers.length;renderQuestion()}
+}else{showIntro()}
+</script>
+</body></html>
