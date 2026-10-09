@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#091526">
+<meta name="description" content="Лукьян — домашняя работа №5 по математике. Авиационный квест: алгоритмы, обратный ход, инварианты, закономерности, логика. 20 заданий, 40 минут, без регистрации.">
+<title>Лукьян · Рейс 05 — Код командира</title>
+<style>
+:root{--night:#071426;--navy:#10213b;--navy2:#172e4b;--edge:#294562;--text:#ecf5ff;--muted:#9db7d3;--mint:#45e0b5;--blue:#83c1ff;--gold:#ffcc78;--rose:#ff8799;--paper:#f0f5fc}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:radial-gradient(900px 440px at 78% -7%,#18486b88,transparent 65%),radial-gradient(600px 380px at -15% 45%,#154a5870,transparent 70%),linear-gradient(165deg,#071426,#0b1e30 57%,#071221)}
+body::after{position:fixed;inset:0;content:"";z-index:-1;pointer-events:none;opacity:.1;background-image:linear-gradient(#93bdd622 1px,transparent 1px),linear-gradient(90deg,#93bdd622 1px,transparent 1px);background-size:52px 52px}
+button,input,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--gold);outline-offset:3px}button:disabled{cursor:default;opacity:.6}a{color:#b7d8ff}.hidden{display:none!important}
+.shell{max-width:1150px;margin:auto;padding:25px 22px 80px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:25px}.brand{display:flex;align-items:center;gap:11px;font-size:12px;letter-spacing:.15em;font-weight:900}.emblem{width:46px;height:46px;border-radius:14px;background:#193b52;border:1px solid #4c7389;display:grid;place-items:center;color:var(--mint);box-shadow:inset 0 0 22px #63e0bf11}.emblem svg{height:29px;width:29px}.tag{color:#c9e7fb;background:#1c365099;border:1px solid #46718a;border-radius:100px;padding:10px 15px;font-size:11px;font-weight:850;letter-spacing:.09em;white-space:nowrap}
+.eyebrow{color:var(--mint);font-size:11px;letter-spacing:.22em;font-weight:900;text-transform:uppercase}.gradient{color:var(--gold)}
+.hero{position:relative;overflow:hidden;background:linear-gradient(115deg,#132941,#102139 65%,#142f40);border:1px solid #33536c;border-radius:27px;min-height:500px;box-shadow:0 27px 70px #0005;isolation:isolate}
+.hero:before{position:absolute;content:"";width:570px;height:570px;border-radius:50%;border:1px solid #74c9da2d;right:-15%;top:-35%;box-shadow:0 0 0 70px #63bfd306,0 0 0 140px #72dcdd07,0 0 0 210px #63bfd306}
+.hero-content{position:relative;z-index:2;max-width:660px;padding:54px 50px 43px}.hero h1{font-size:clamp(48px,6vw,79px);letter-spacing:-.065em;line-height:.98;margin:15px 0 22px;font-weight:930}.hero h1 span{display:block;color:#ffcd7a}.lead{font-size:15px;color:#c3d4e8;line-height:1.75;max-width:585px}.chips{display:flex;flex-wrap:wrap;gap:9px;margin:25px 0}.chip{font-size:12px;font-weight:750;color:#cbe5f4;border:1px solid #3e6177;background:#1c364b;padding:10px 12px;border-radius:11px}
+.primary,.secondary,.smallbtn{border-radius:13px;font-weight:850;transition:transform .14s,background .14s,border-color .14s}.primary:hover:not(:disabled),.secondary:hover:not(:disabled){transform:translateY(-1px)}.primary{border:0;color:#082d32;padding:15px 21px;background:linear-gradient(110deg,#49e5b6,#a8ddf7);box-shadow:0 10px 28px #40d5bd26}.secondary{color:#e2efff;border:1px solid #4a6985;background:#203954;padding:14px 19px}.smallbtn{font-size:12px;color:#bad1e7;border:1px solid #3f5d76;background:#203650;padding:9px 12px}.primary:disabled,.secondary:disabled{opacity:.45}.tiny{font-size:12px;color:#91abc7;line-height:1.6}.pilotcard{position:absolute;right:0;top:26px;width:46%;height:85%;pointer-events:none;opacity:.96;z-index:1}.pilotcard svg{width:100%;height:100%;filter:drop-shadow(0 0 20px #45d7e220)}
+.name-field{display:block;margin-top:20px;margin-bottom:8px;font-size:13px;font-weight:850;color:#e0f0ff}.name-input{color:#fff;background:#091d31;border:1px solid #42627b;border-radius:12px;padding:14px 16px;font-size:17px;max-width:390px;width:100%}.startline{display:flex;gap:13px;align-items:center;flex-wrap:wrap;margin:17px 0}.errline{color:#ff9daa;font-size:12px;min-height:17px}
+.route{margin:18px 0 28px;padding:25px 27px;background:#102840;border:1px solid #274962;border-radius:22px}.route h2{font-size:14px;letter-spacing:.1em;margin:0 0 21px;text-transform:uppercase;color:#c5d8e9}.route-steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.route-step{position:relative;min-width:0;padding:17px 11px;border:1px solid #365771;border-radius:15px;background:linear-gradient(180deg,#1a3851,#142b45)}.route-step:after{content:"→";position:absolute;right:-13px;top:40%;color:#86c9ca;z-index:2;font-weight:900}.route-step:last-child:after{content:none}.round{font-size:11px;color:var(--mint);letter-spacing:.08em;font-weight:900}.route-step b{display:block;margin:8px 0 5px;font-size:13px}.route-step small{font-size:10px;color:#9ebbd5}
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) 258px;gap:18px;align-items:start}.panel{border:1px solid #31516e;border-radius:25px;background:linear-gradient(155deg,#142d46,#0f2036 85%);box-shadow:0 20px 60px #0003}.question-panel{padding:32px 34px 28px;min-height:540px}.progressrow{display:flex;justify-content:space-between;gap:12px;font-size:12px;font-weight:800;color:#aac4dd}.track{margin:13px 0 32px;width:100%;height:9px;border-radius:30px;background:#27435b;overflow:hidden}.track-fill{height:100%;width:0;background:linear-gradient(90deg,#4de5b6,#a8d7ff);transition:width .25s}.stepmeta{color:var(--mint);font-size:11px;letter-spacing:.16em;font-weight:900;text-transform:uppercase}.qtitle{font-size:clamp(25px,3.5vw,37px);line-height:1.25;letter-spacing:-.035em;margin:16px 0 15px}.qdescription{color:#c0d6eb;font-size:16px;line-height:1.8;max-width:730px}.math{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:1.3em;color:#fff;letter-spacing:.015em}.mathbox{margin:19px 0;padding:20px 21px;background:linear-gradient(135deg,#0d1d32,#17344d);border:1px solid #3c637f;border-radius:17px;font-size:23px;font-family:"Cambria Math",Georgia,serif;font-weight:750;line-height:1.55;word-break:break-word}.mathbox small{font:600 12px/1.6 ui-sans-serif,-apple-system,Arial,sans-serif;color:#a9c5dd;display:block;margin-bottom:5px}
+.answer-field{width:100%;max-width:490px;min-height:62px;padding:17px 19px;font-size:25px;color:#fff;border-radius:15px;border:1px solid #4c6c87;background:#091c30;letter-spacing:.015em}.answer-field::placeholder{font-size:15px;color:#829cba}.answer-tip{font-size:12px;color:#9db7d1;line-height:1.6;margin:12px 0}
+.choices{display:grid;gap:11px;margin:22px 0}.choice{display:flex;align-items:center;gap:14px;text-align:left;color:#ebf6ff;width:100%;min-height:62px;padding:13px 15px;border:1px solid #3b6180;background:#18334d;border-radius:15px;transition:background .14s,border-color .14s;font-weight:750}.choice:not(:disabled):hover{background:#24465e;border-color:#8abedb}.choice.chosen{background:#2b4d5c;border-color:#65e4c2}.choice.good{background:#1b564b;border-color:#54e2ae}.choice.bad{background:#613547;border-color:#ff8e9f}.choice:disabled{opacity:1}.letter{flex:0 0 37px;height:37px;border-radius:11px;background:#30536b;color:#dbf5ff;display:grid;place-items:center;font-weight:900}
+.answer-textarea{width:100%;min-height:165px;resize:vertical;border:1px solid #4a708b;color:#edf6ff;background:#0b2035;border-radius:16px;padding:16px 18px;font-size:15px;line-height:1.7}.answer-textarea::placeholder{color:#8daac6}
+.hintbar{margin:18px 0 5px}.hint-toggle{font-size:12px;color:#ffcf87;background:#3e3020;border:1px solid #755b35;border-radius:11px;padding:10px 13px;font-weight:800}.hint{padding:15px 16px;background:#392e24;border:1px solid #795d38;border-radius:12px;font-size:13px;line-height:1.65;color:#ffdea6;margin:10px 0 0}
+.feedback{margin-top:18px;padding:17px 20px;border:1px solid #3c8b75;background:#123a38;border-radius:17px;color:#dafcf2}.feedback.wrong{border-color:#a45a69;background:#422a3a;color:#ffe1e7}.feedback.manual{border-color:#6578a6;background:#243552;color:#dae6ff}.feedback strong{font-size:17px}.feedback p{margin:9px 0 0;font-size:14px;line-height:1.65}.actions{margin-top:24px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.side{position:sticky;top:17px;padding:24px 21px}.side h3{font-size:13px;letter-spacing:.1em;margin:0 0 13px}.number{font-size:41px;font-weight:920;letter-spacing:-.05em;margin:5px 0;color:#dbf6ff}.number span{color:#9bb7d2;font-size:16px}.sideinfo{color:#9bb6d1;font-size:12px;line-height:1.6}.sidehr{height:1px;background:#31536f;margin:21px 0}.dots{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:17px 0}.dot{height:33px;display:grid;place-items:center;border-radius:9px;color:#b6d3ed;background:#23425b;border:1px solid transparent;font-size:11px;font-weight:900}.dot.right{background:#165746;color:#bcf6de}.dot.wrong{background:#653a44;color:#ffe1e6}.dot.manual{background:#324c6a;color:#cfe4ff}.dot.active{border-color:#ffcc78;box-shadow:inset 0 0 0 1px #ffcc78}
+.resultpanel{padding:39px 41px}.resultpanel h2{font-size:clamp(34px,5vw,58px);letter-spacing:-.05em;line-height:1.08;margin:13px 0}.scorebox{padding:24px;border:1px solid #3d8d83;background:#163e43;border-radius:20px;margin:24px 0}.score{font-size:70px;letter-spacing:-.075em;font-weight:900;color:#73f0cb}.score small{font-size:26px;color:#abc8dc}.two{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.info{padding:16px;background:#162f48;border:1px solid #305272;border-radius:15px}.info small{display:block;color:#a9bed5;font-size:11px;margin-bottom:6px}.info b{font-size:16px}.finish-actions{display:flex;gap:11px;flex-wrap:wrap;margin:24px 0}.finish-actions button{flex:1;min-width:180px}.report-rows{display:grid;gap:10px;margin-top:18px}.report-row{padding:16px;border-radius:14px;background:#12293f;border:1px solid #30516e;line-height:1.6}.report-row h4{font-size:14px;margin:0 0 8px}.report-row p{font-size:13px;margin:5px 0;color:#b9cee2;overflow-wrap:anywhere}.status-ok{color:#62ebbe}.status-bad{color:#ff9daa}.status-manual{color:#a9c5ff}
+.footer{font-size:11px;color:#748ca8;margin:25px 0;text-align:center}.warn{padding:13px 15px;border:1px solid #765a36;background:#352b22;border-radius:13px;color:#f3d9ac;font-size:12px;line-height:1.6;margin:16px 0}#printReport{display:none}
+@media(max-width:1000px){.hero-content{max-width:610px}.pilotcard{width:43%;opacity:.55}.hero-content{padding:44px 38px}.workspace{grid-template-columns:minmax(0,1fr) 225px}}
+@media(max-width:750px){.shell{padding:14px 12px 65px}.topbar{margin-bottom:14px}.emblem{width:38px;height:38px}.tag{font-size:10px;padding:9px}.brand{font-size:10px}.hero{min-height:0}.hero-content{padding:31px 22px 26px}.pilotcard{opacity:.13;width:86%;right:-30%;top:-2%;height:70%}.hero h1{font-size:clamp(42px,11.5vw,66px)}.lead{font-size:14px;line-height:1.7}.chips{margin:16px 0}.chip{font-size:11px;padding:8px 10px}.route{padding:21px 16px}.route-steps{grid-template-columns:repeat(2,minmax(0,1fr))}.route-step:nth-child(even):after{content:none}.route-step:nth-child(5){grid-column:1/-1}.workspace{grid-template-columns:minmax(0,1fr)}.side{order:-1;position:static;padding:17px}.side h3,.sideinfo,.sidehr{display:none}.side .number{display:inline-block;font-size:24px;margin:0 17px 0 0}.dots{margin:10px 0 0;display:flex;gap:5px}.dot{flex:1;min-width:0;height:8px;font-size:0;border-radius:20px}.question-panel{padding:26px 19px;min-height:0}.qdescription{font-size:15px}.mathbox{font-size:20px;padding:17px}.resultpanel{padding:25px 19px}.two{grid-template-columns:1fr}.score{font-size:58px}.finish-actions button{min-width:100%}.actions{align-items:stretch;flex-direction:column}.actions button{width:100%}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+@media print{@page{size:A4;margin:14mm}body{margin:0!important;background:#fff!important;color:#18273b!important}body:after{display:none}#app{display:none!important}#printReport{display:block!important;background:#fff;color:#18273b;font:12px/1.5 Arial,sans-serif}#printReport h1{font-size:25px;margin:0 0 7px;color:#152840}#printReport h2{font-size:15px;color:#173655;margin:18px 0 7px}#printReport p{margin:4px 0}#printReport .pritem{break-inside:avoid;border:1px solid #cbd6e2;border-radius:8px;padding:10px 12px;margin:9px 0}#printReport .pritem p{white-space:pre-wrap;overflow-wrap:anywhere}#printReport .prgood{color:#006b4c}#printReport .prbad{color:#a1263e}#printReport .prmanual{color:#315ca1}#printReport .prsmall{color:#667789;font-size:10px}#printReport .prtitle{font-weight:bold}}
+</style>
+</head>
+<body>
+<div id="app" class="shell">
+<header class="topbar">
+ <div class="brand"><div class="emblem" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M2 18l11.4 1.3L16 4l3 1 2 15 9 4-1 3-11-2-11 2-3-3 10-4" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg></div><span>МАТЕМАТИЧЕСКАЯ<br>АВИАШКОЛА</span></div>
+ <span class="tag">БОРТ LK-05 · ДОМАШНЯЯ РАБОТА</span>
+</header>
+<section id="welcome">
+ <div class="hero">
+  <div class="pilotcard" aria-hidden="true">
+   <svg viewBox="0 0 580 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="338" cy="290" r="217" stroke="#76d2cb" stroke-width="1.5" opacity=".32"/>
+    <circle cx="338" cy="290" r="166" stroke="#8ac8e2" stroke-width="1.5" opacity=".38"/>
+    <circle cx="338" cy="290" r="113" stroke="#76d2cb" stroke-width="1.5" opacity=".45"/>
+    <circle cx="338" cy="290" r="60" stroke="#8ac8e2" stroke-width="1.5" opacity=".5"/>
+    <path d="M121 290h434M338 73v434" stroke="#76d2cb" opacity=".27"/>
+    <path d="M152 399C225 278 365 259 484 143" stroke="#4ce3c0" stroke-width="3" stroke-dasharray="7 14" stroke-linecap="round"/>
+    <circle cx="152" cy="399" r="9" fill="#fbc36e"/><circle cx="484" cy="143" r="7" fill="#47e1b8"/>
+    <path d="M371 226l100-48-31 47-56 25-18 56-13 3 2-64-48-13 6-17 58 11z" fill="#c8eff9" stroke="#a1e7df" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M165 465h166" stroke="#73d4cc" stroke-width="4" stroke-linecap="round"/><path d="M165 483h98" stroke="#73d4cc" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+    <text x="161" y="448" fill="#b4e5e7" font-size="15" font-family="Arial" letter-spacing="4">FLIGHT ROUTE / 05</text>
+    <text x="424" y="92" fill="#66f0c9" font-size="16" font-family="Arial" font-weight="bold">LK-05</text>
+   </svg>
+  </div>
+  <div class="hero-content">
+   <div class="eyebrow">ЛИЧНАЯ МИССИЯ · ПЯТЫЙ УРОК</div>
+   <h1>Код<br><span>командира.</span></h1>
+   <p class="lead">Лукьян, твой новый рейс готов к вылету. Сегодня предстоит взломать бортовые алгоритмы, обнаружить тайные правила и доказать, когда выполнить приказ невозможно.</p>
+   <div class="chips">
+    <span class="chip">✦ 20 заданий</span><span class="chip">◷ ~40 минут</span><span class="chip">✓ 16 автопроверок</span><span class="chip">✎ 4 объяснения</span>
+   </div>
+   <label for="studentName" class="name-field">Имя пилота</label>
+   <input id="studentName" class="name-input" autocomplete="name" maxlength="60" value="Лукьян" aria-label="Имя ученика">
+   <div class="errline" id="startError"></div>
+   <div class="startline"><button id="startBtn" type="button" class="primary">Начать миссию <span aria-hidden="true">↗</span></button><span class="tiny">Аккаунт не нужен.<br>Можно использовать черновик.</span></div>
+   <p class="tiny">После подтверждения ответ нельзя изменить. Данные сохраняются только в браузере этого устройства. По окончании отправь отчёт преподавателю в Telegram.</p>
+  </div>
+ </div>
+ <div class="route">
+  <h2>Маршрут твоего рейса</h2>
+  <div class="route-steps">
+   <div class="route-step"><div class="round">СЕКТОР 01</div><b>Взлёт</b><small>Счёт и структура</small></div>
+   <div class="route-step"><div class="round">СЕКТОР 02</div><b>Бортовой код</b><small>Обратный ход</small></div>
+   <div class="route-step"><div class="round">СЕКТОР 03</div><b>За границей</b><small>Что невозможно?</small></div>
+   <div class="route-step"><div class="round">СЕКТОР 04</div><b>Радар</b><small>Циклы и правила</small></div>
+   <div class="route-step"><div class="round">СЕКТОР 05</div><b>Тайный ангар</b><small>Логика и поиск</small></div>
+  </div>
+ </div>
+</section>
+<section id="workspace" class="workspace hidden" aria-live="polite">
+ <main class="panel question-panel">
+  <div class="progressrow"><span id="counter">Задание 1 из 20</span><span id="percentage">0% маршрута</span></div>
+  <div class="track"><div id="progressFill" class="track-fill"></div></div>
+  <div id="stepmeta" class="stepmeta"></div>
+  <h2 id="qtitle" class="qtitle"></h2>
+  <div id="qdesc" class="qdescription"></div>
+  <div id="mathbox" class="mathbox hidden"></div>
+  <div id="answerArea"></div>
+  <div class="hintbar"><button id="hintBtn" type="button" class="hint-toggle">✧ Нужна подсказка?</button><div id="hintText" class="hint hidden"></div></div>
+  <div id="answerError" class="errline" role="alert"></div>
+  <div id="feedback" class="feedback hidden"></div>
+  <div class="actions"><span id="lockLabel" class="tiny">Сначала подумай, потом подтверждай ответ.</span><button id="submitBtn" class="primary" type="button">Проверить ответ →</button><button id="nextBtn" class="primary hidden" type="button">Следующее задание →</button></div>
+ </main>
+ <aside class="panel side">
+  <h3>БОРТОВОЙ ЖУРНАЛ</h3><div class="number" id="sideDone">0 <span>/ 20</span></div>
+  <div class="sideinfo">Пройденные задания</div>
+  <div id="dots" class="dots" aria-label="Прогресс заданий"></div>
+  <div class="sidehr"></div>
+  <h3>АВТОПРОВЕРКА</h3><div class="number" id="sideScore">0 <span>/ 16</span></div>
+  <div class="sideinfo">Четыре задания с доказательствами отдельно проверит преподаватель.</div>
+  <div class="sidehr"></div>
+  <button id="draftBtn" class="smallbtn" type="button">↓ Сохранить промежуточный отчёт</button>
+ </aside>
+</section>
+<section id="finish" class="panel resultpanel hidden">
+ <div class="eyebrow">МИССИЯ ВЫПОЛНЕНА</div>
+ <h2>Посадка<br><span class="gradient">разрешена!</span></h2>
+ <p class="lead">Ты прошёл весь маршрут. В математике важны не только правильные числа, но и объяснение, почему решение работает.</p>
+ <div class="scorebox"><div class="eyebrow">РЕЗУЛЬТАТ АВТОПРОВЕРКИ</div><div id="finalScore" class="score">0 <small>/ 16</small></div><div id="scoreMessage" class="lead"></div></div>
+ <div class="two"><div class="info"><small>ПИЛОТ</small><b id="resultName"></b></div><div class="info"><small>ОБЪЯСНЕНИЯ</small><b>4 ответа на проверку учителю</b></div><div class="info"><small>НАЧАЛО</small><b id="resultStart"></b></div><div class="info"><small>ЗАВЕРШЕНИЕ</small><b id="resultFinish"></b></div></div>
+ <h3 style="margin-top:32px">Отправь бортовой журнал преподавателю</h3>
+ <p class="lead">В отчёте есть все задания, твои ответы, отметки проверки и объяснения. Выбери Telegram в меню «Поделиться» либо сохрани отчёт файлом. Кнопка PDF откроет печать — выбери «Сохранить в PDF».</p>
+ <div class="finish-actions"><button id="shareBtn" type="button" class="primary">↗ Поделиться с учителем</button><button id="pdfBtn" type="button" class="secondary">▤ Сохранить PDF</button><button id="txtBtn" type="button" class="secondary">↓ Скачать отчёт (.txt)</button><button id="htmlBtn" type="button" class="secondary">↓ Отчёт (.html)</button></div>
+ <div id="finishMessage" class="errline" role="status"></div>
+ <div class="warn">Ответы автоматически не отправляются. Обязательно поделись отчётом с преподавателем. Результат четырёх письменных заданий он оценит отдельно.</div>
+ <h3>Твой журнал полёта</h3><div id="reportPreview" class="report-rows"></div>
+</section>
+<footer class="footer">Математическая авиашкола · Лукьян · Урок 05 · Собственные ответы сохраняются на устройстве</footer>
+</div>
+<section id="printReport" aria-label="Отчёт для PDF"></section>
+<script>
+'use strict';
+const STAGES=['Взлёт / вычисления','Бортовой код / алгоритмы','За границей / инварианты','Радар / циклы','Тайный ангар / поиск'];
+const QUESTIONS=[
+ {stage:0,kind:'number',title:'Предполётная проверка',body:'Вычисли выражение. Следи за порядком действий и скобками.',math:'84 − (9 × 6 − 17)',answer:47,hint:'Сначала действие в скобках. Не забудь вычесть всю скобку.',explain:'9 × 6 = 54; 54 − 17 = 37; 84 − 37 = 47.'},
+ {stage:0,kind:'choice',title:'Не считай всё подряд',body:'Какое выражение больше? Постарайся объяснить себе, не перемножая большие числа.',math:'28 × 9   ?   28 × 8 + 27',options:['Левое','Правое','Одинаковые'],correct:0,hint:'28 × 9 = 28 × 8 + ещё одна группа из 28.',explain:'Слева 28 × 8 + 28, справа 28 × 8 + 27. Слева на 1 больше.'},
+ {stage:0,kind:'number',title:'Командный расчёт',body:'Вычисли по действиям. Двоеточие означает деление.',math:'8 × (16 − 9) + 63 : 7',answer:65,hint:'Сначала 16 − 9, затем умножение и деление.',explain:'16 − 9 = 7; 8 × 7 = 56; 63 : 7 = 9; 56 + 9 = 65.'},
+ {stage:0,kind:'text',title:'Объясни как математик',body:'Два инженера спорят, что больше: 36 × 7 + 36 × 5 или 36 × 13. Назови большее выражение и объясни, как сравнить их без полного вычисления.',math:'36 × 7 + 36 × 5   ?   36 × 13',placeholder:'Напиши вывод и объяснение: почему он верный?',hint:'Сравни количество одинаковых групп по 36.',review:'Проверить, увидел ли ученик 36 × (7 + 5) = 36 × 12 и сделал верное сравнение.'},
+ {stage:1,kind:'number',title:'Компьютер потерял вход',body:'Неизвестное число умножили на 3, затем прибавили 11. На экране получилось 83. Восстанови исходное число.',math:'? → × 3 → + 11 → 83',answer:24,hint:'Иди от 83 назад: сначала убери 11, затем отмени умножение.',explain:'83 − 11 = 72; 72 : 3 = 24.'},
+ {stage:1,kind:'number',title:'Обратный курс',body:'Задуманное число сначала увеличили на 8, потом умножили на 3 и уменьшили на 7. Получилось 71.',math:'? → + 8 → × 3 → − 7 → 71',answer:18,hint:'В обратную сторону сначала прибавь 7, потом раздели на 3.',explain:'71 + 7 = 78; 78 : 3 = 26; 26 − 8 = 18.'},
+ {stage:1,kind:'number',title:'Порядок меняет всё',body:'Два бортовых компьютера выдали 54. У одного порядок ×2, затем +6; у другого +6, затем ×2. На сколько отличаются их исходные числа?',math:'А: ? → × 2 → + 6 → 54\nБ: ? → + 6 → × 2 → 54',answer:3,hint:'Найди оба исходных числа обратным ходом и вычти меньшее из большего.',explain:'А: (54 − 6) : 2 = 24. Б: 54 : 2 − 6 = 21. Разность 3.'},
+ {stage:1,kind:'number',title:'Расшифруй табло',body:'Алгоритм выполняется слева направо. Восстанови начальное число.',math:'? → + 9 → × 4 → − 5 → 91',answer:15,hint:'В обратном направлении: +5, :4, −9.',explain:'91 + 5 = 96; 96 : 4 = 24; 24 − 9 = 15.'},
+ {stage:2,kind:'choice',title:'Невозможная команда?',body:'На табло стоит число 7. Разрешены только команды +2 и −2, сколько угодно раз. Можно ли получить 24?',math:'СТАРТ 7    |    +2 / −2    |    ЦЕЛЬ 24',options:['Да','Нет'],correct:1,hint:'Как меняется чётность после прибавления или вычитания 2?',explain:'После ±2 нечётное число остаётся нечётным. 7 нечётное, а 24 чётное. Это невозможно.'},
+ {stage:2,kind:'choice',title:'Команда выполнима?',body:'На табло число 12. Разрешены только +5 и −5, сколько угодно раз. Можно ли получить 47?',math:'СТАРТ 12    |    +5 / −5    |    ЦЕЛЬ 47',options:['Да','Нет'],correct:0,hint:'Найди разность между целью и стартом. Делится ли она на 5?',explain:'47 − 12 = 35 = 7 × 5. Достаточно семь раз выполнить +5.'},
+ {stage:2,kind:'choice',title:'Секрет остатка',body:'Из числа 6 можно получать новые числа, прибавляя или вычитая 4. Можно ли когда-нибудь оказаться на числе 19?',math:'СТАРТ 6    |    +4 / −4    |    ЦЕЛЬ 19',options:['Да','Нет'],correct:1,hint:'Вычти из 19 начальное число 6. Может ли такая разность появиться из шагов по 4?',explain:'19 − 6 = 13, а сумма шагов +4 и −4 всегда кратна 4. Разность 13 не кратна 4, поэтому ответ «нет».'},
+ {stage:2,kind:'text',title:'Инвариант диспетчера',body:'На стоянке шесть закрытых ворот. За один ход диспетчер меняет состояние ровно ДВУХ ворот: открытое закрывает, закрытое открывает. Можно ли получить ровно пять открытых ворот? Докажи ответ.',math:'6 ворот · за ход меняются ровно 2',placeholder:'Можно или нельзя? Что сохраняется при каждом ходе?',hint:'Проверь, какой может быть чётность числа открытых ворот после одного хода.',review:'Невозможно: число открытых ворот сохраняет чётность, поскольку за ход меняется на −2, 0 или +2.'},
+ {stage:3,kind:'number',title:'Радар замечает правило',body:'У последовательности есть одно повторяющееся правило. Найди следующее число.',math:'6 → 13 → 27 → 55 → ?',answer:111,hint:'Проверь правило «умножить на 2 и прибавить 1».',explain:'6 × 2 + 1 = 13; 13 × 2 + 1 = 27; 27 × 2 + 1 = 55; 55 × 2 + 1 = 111.'},
+ {stage:3,kind:'choice',title:'Какой сигнал 57-й?',body:'Радар передаёт сигналы по кругу: СИНИЙ, ЖЁЛТЫЙ, ЗЕЛЁНЫЙ, КРАСНЫЙ — и снова синий. Какого цвета 57-й сигнал?',math:'🔵 → 🟡 → 🟢 → 🔴 → 🔵 → ...',options:['Синий','Жёлтый','Зелёный','Красный'],correct:0,hint:'Каждые четыре сигнала цикл начинается заново. Найди остаток от деления 57 на 4.',explain:'57 = 4 × 14 + 1. Это первый сигнал следующего цикла — синий.'},
+ {stage:3,kind:'number',title:'Два круга алгоритма',body:'Стартовое число 4. Повтори цикл из трёх команд ДВА раза подряд и запиши итог.',math:'СТАРТ 4\nЦИКЛ: +3 → ×2 → −1\nПОВТОРИТЬ 2 РАЗА',answer:31,hint:'После первого круга получается 13. Запусти на нём цикл ещё раз.',explain:'Первый круг: (4 + 3) × 2 − 1 = 13. Второй: (13 + 3) × 2 − 1 = 31.'},
+ {stage:3,kind:'text',title:'Докажи свой прогноз',body:'Исследуй последовательность 2, 6, 14, 30, ... Найди следующие ДВА числа и объясни единое правило, которое работает на всех переходах.',math:'2 → 6 → 14 → 30 → ? → ?',placeholder:'Два следующих числа и твоё правило (покажи проверку).',hint:'Попробуй удваивать каждое число и прибавлять одинаковое число.',review:'Следующие числа 62 и 126, правило x → 2x + 2. Ученик должен проверить его на нескольких шагах.'},
+ {stage:4,kind:'number',title:'Секретный номер ангара',body:'Трёхзначный номер имеет разные цифры. Первая цифра в 2 раза больше последней, средняя на 1 больше последней, а сумма всех цифр равна 13. Найди номер.',math:'ЦИФРЫ РАЗНЫЕ · СУММА 13',answer:643,hint:'Попробуй подбирать последнюю цифру: тогда остальные две определяются по ней.',explain:'Если последняя цифра 3, то первая 6, средняя 4. Сумма 6 + 4 + 3 = 13. Номер 643. Другого решения нет: сумма равна 4 × последняя цифра + 1.'},
+ {stage:4,kind:'number',title:'Все секретные коды',body:'Из цифр 1, 2, 3, 4 составляют трёхзначные коды без повторяющихся цифр. Код должен оканчиваться ЧЁТНОЙ цифрой. Сколько разных кодов возможно?',math:'1 · 2 · 3 · 4    |    3 цифры    |    ПОСЛЕДНЯЯ ЧЁТНАЯ',answer:12,hint:'Сначала выбери последнюю цифру, затем первую и вторую. Умножь количество возможностей.',explain:'Последняя цифра: 2 варианта (2 или 4). Первая: 3 варианта из оставшихся. Вторая: 2. Всего 2 × 3 × 2 = 12.'},
+ {stage:4,kind:'choice',title:'Три хода до цели',body:'Стартовое число 5. Нужно получить 23 РОВНО ЗА ТРИ команды. Разрешены только +4 и ×2. Возможно ли это?',math:'СТАРТ 5    |    ТРИ ХОДА    |    +4 / ×2    |    ЦЕЛЬ 23',options:['Да, возможно','Нет, невозможно'],correct:1,hint:'После команды ×2 получается чётное число. Может ли прибавление 4 снова сделать его нечётным?',explain:'Если выполнить хотя бы одно ×2, число станет чётным и останется чётным после любых +4 или ×2. А без ×2 три команды +4 дают 5 + 12 = 17, не 23. Значит невозможно.'},
+ {stage:4,kind:'text',title:'Финал: создай два маршрута',body:'Сконструируй ДВА РАЗНЫХ алгоритма, каждый ровно из ТРЁХ арифметических действий, которые превращают 8 в 40. Покажи все промежуточные числа и объясни, чем твои способы отличаются.',math:'8 → [ 3 действия ] → 40\n8 → [ 3 других действия ] → 40',placeholder:'Маршрут А: 8 → ... → 40\nМаршрут Б: 8 → ... → 40\nЧем они отличаются?',hint:'Можно использовать +, −, × и :. Например, начни один маршрут со сложения, другой — с умножения.',review:'Нужно два корректных трёхшаговых алгоритма, например 8 +2 =10, ×3 =30, +10 =40; 8 ×2 =16, +4 =20, ×2 =40; промежуточные числа и различие описаны.'}
+];
+const AUTO_COUNT=QUESTIONS.filter(q=>q.kind!=='text').length;
+const STORAGE_KEY='lukyan-hw5-aviaschool-2026-v1';
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let state={name:'Лукьян',startedAt:null,finishedAt:null,index:0,answers:[],hints:{}};
+let selected=null;
+function readSave(){
+ try{let s=JSON.parse(localStorage.getItem(STORAGE_KEY));if(s&&typeof s.name==='string'&&Array.isArray(s.answers)&&s.answers.length<=QUESTIONS.length){state={name:s.name,startedAt:s.startedAt||null,finishedAt:s.finishedAt||null,index:Math.min(s.answers.length,QUESTIONS.length),answers:s.answers,hints:s.hints||{}};return true;}}catch(e){}
+ return false;
+}
+function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch(e){}}
+function show(id){['welcome','workspace','finish'].forEach(x=>$(x).classList.toggle('hidden',x!==id));}
+function score(){return state.answers.filter((a,i)=>QUESTIONS[i].kind!=='text'&&a.correct===true).length}
+function formatDate(v){if(!v)return '—';try{return new Date(v).toLocaleString('ru-RU',{dateStyle:'medium',timeStyle:'short'});}catch(e){return v}}
+function answerValue(q,a){if(!a)return '—';return String(a.answer)}
+function labelStatus(q,a){return q.kind==='text'?'ПРОВЕРКА УЧИТЕЛЯ':a.correct?'ВЕРНО':'ОШИБКА'}
+function scoreIntro(){if(score()===AUTO_COUNT)return 'Все автоматически проверяемые задачи решены верно. Молодец!';if(score()>=12)return 'Хороший полёт! Ошибки подскажут, что полезно повторить.';return 'Не всё получилось с первого раза — это нормально для олимпиадных задач. Изучи пояснения и обсуди трудные места на занятии.'}
+function renderSide(){
+ const n=state.answers.length; $('sideDone').innerHTML=n+' <span>/ '+QUESTIONS.length+'</span>';
+ $('sideScore').innerHTML=score()+' <span>/ '+AUTO_COUNT+'</span>';
+ $('counter').textContent='Задание '+Math.min(state.index+1,QUESTIONS.length)+' из '+QUESTIONS.length;
+ $('percentage').textContent=Math.round(n/QUESTIONS.length*100)+'% маршрута';
+ $('progressFill').style.width=(n/QUESTIONS.length*100)+'%';
+ const dots=$('dots');dots.innerHTML='';
+ QUESTIONS.forEach((q,i)=>{const s=document.createElement('span');s.className='dot';s.textContent=i+1;const a=state.answers[i];if(a){s.classList.add(q.kind==='text'?'manual':a.correct?'right':'wrong');}if(i===state.index)s.classList.add('active');dots.append(s)});
+}
+function viewQuestion(){
+ if(state.index>=QUESTIONS.length){viewFinish();return;}
+ show('workspace');window.scrollTo(0,0);selected=null;
+ const q=QUESTIONS[state.index],prev=state.answers[state.index];
+ $('stepmeta').textContent='СЕКТОР '+String(q.stage+1).padStart(2,'0')+' · '+STAGES[q.stage]+' · '+(q.kind==='text'?'ДОКАЗАТЕЛЬСТВО':'ВОПРОС НА ПРОВЕРКУ');
+ $('qtitle').textContent=q.title;
+ $('qdesc').textContent=q.body;
+ $('mathbox').textContent=q.math||'';$('mathbox').classList.toggle('hidden',!q.math);
+ $('mathbox').style.whiteSpace='pre-line';
+ $('answerError').textContent='';
+ $('feedback').className='feedback hidden';$('feedback').innerHTML='';
+ $('submitBtn').classList.toggle('hidden',!!prev);$('nextBtn').classList.toggle('hidden',!prev);
+ $('nextBtn').textContent=state.index===QUESTIONS.length-1?'Завершить рейс →':'Следующее задание →';
+ $('lockLabel').textContent=prev?'🔒 Ответ записан, изменять нельзя.':'После проверки ответ изменить нельзя.';
+ const a=$('answerArea');a.innerHTML='';
+ if(q.kind==='choice'){
+  const box=document.createElement('div');box.className='choices';
+  q.options.forEach((t,i)=>{const b=document.createElement('button');b.className='choice';b.type='button';b.innerHTML='<span class="letter">'+['А','Б','В','Г'][i]+'</span><span>'+esc(t)+'</span>';b.onclick=()=>{selected=i;box.querySelectorAll('.choice').forEach((x,k)=>x.classList.toggle('chosen',i===k));};box.append(b)});
+  a.append(box);
+ }else if(q.kind==='number'){
+  const input=document.createElement('input');input.type='text';input.id='numericInput';input.inputMode='numeric';input.autocomplete='off';input.className='answer-field';input.maxLength=30;input.placeholder='Введи число';input.setAttribute('aria-label','Числовой ответ');
+  input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submitAnswer();}});
+  const tip=document.createElement('p');tip.className='answer-tip';tip.textContent='Запиши только число. Можно решать на черновике.';a.append(input,tip);
+ }else{
+  const t=document.createElement('textarea');t.className='answer-textarea';t.id='textInput';t.maxLength=2300;t.placeholder=q.placeholder||'Объясни ход решения';t.setAttribute('aria-label','Твоё объяснение');
+  const tip=document.createElement('p');tip.className='answer-tip';tip.textContent='Здесь важна твоя мысль: запиши объяснение в нескольких предложениях. Преподаватель проверит его лично.';a.append(t,tip);
+ }
+ const used=!!state.hints[state.index];$('hintText').textContent=q.hint;
+ $('hintText').classList.toggle('hidden',!used);$('hintBtn').classList.toggle('hidden',!!prev);
+ $('hintBtn').textContent=used?'Подсказка открыта':'✧ Нужна подсказка?';
+ if(prev)lockView(q,prev);
+ renderSide();
+}
+function lockView(q,entry){
+ const els=$('answerArea');els.querySelectorAll('button,input,textarea').forEach(e=>e.disabled=true);
+ if(q.kind==='choice'){
+  els.querySelectorAll('button.choice').forEach((e,i)=>{e.classList.remove('chosen');if(i===q.correct)e.classList.add('good');else if(i===entry.selected)e.classList.add('bad');});
+ }else if(q.kind==='number'){const e=$('numericInput');if(e)e.value=entry.answer;}
+ else {const e=$('textInput');if(e)e.value=entry.answer;}
+ const fb=$('feedback');fb.className='feedback '+(q.kind==='text'?'manual':entry.correct?'':'wrong');
+ const title=q.kind==='text'?'✎ Рассуждение записано':entry.correct?'✓ Верно, отличный манёвр!':'✕ Есть ошибка — посмотри разбор';
+ fb.innerHTML='<strong>'+title+'</strong><p>'+esc(q.kind==='text'?'Ответ сохранён. Его проверит преподаватель после получения отчёта.':q.explain)+'</p>';
+ $('submitBtn').classList.add('hidden');$('nextBtn').classList.remove('hidden');$('hintBtn').classList.add('hidden');
+ $('lockLabel').textContent='🔒 Ответ подтверждён и сохранён.';
+}
+function submitAnswer(){
+ if(state.index>=QUESTIONS.length||state.answers.length!==state.index)return;
+ const q=QUESTIONS[state.index];let answer,correct=null,selection=null;
+ if(q.kind==='choice'){
+  if(selected===null){$('answerError').textContent='Выбери один вариант.';return}
+  selection=selected;answer=q.options[selected];correct=selected===q.correct;
+ }else if(q.kind==='number'){
+  const raw=($('numericInput').value||'').trim().replace(/[\u2212\u2013\u2014]/g,'-');
+  if(!/^[+-]?\d+$/.test(raw)||!Number.isSafeInteger(Number(raw))){$('answerError').textContent='Введи целое число без букв и пробелов.';return}
+  answer=raw;correct=Number(raw)===q.answer;
+ }else{
+  answer=($('textInput').value||'').trim();
+  if(answer.length<35){$('answerError').textContent='Добавь объяснение подробнее (не меньше 35 символов).';return}
+ }
+ const entry={answer:answer,correct:correct,selected:selection,at:new Date().toISOString(),hintUsed:!!state.hints[state.index]};
+ state.answers.push(entry);save();$('answerError').textContent='';
+ lockView(q,entry);renderSide();
+}
+function goNext(){
+ if(state.answers.length!==state.index+1)return;
+ state.index++;
+ if(state.index>=QUESTIONS.length){state.finishedAt=new Date().toISOString();save();viewFinish();}
+ else{save();viewQuestion();}
+}
+function reportText(){
+ const lines=['ЛУКЬЯН — РЕЙС 05. КОД КОМАНДИРА','Интерактивная домашняя работа по математике','Ученик: '+state.name,'Начало: '+formatDate(state.startedAt),'Завершение: '+formatDate(state.finishedAt),'Подготовлено: '+formatDate(new Date().toISOString()),'Выполнено: '+state.answers.length+' из '+QUESTIONS.length,'Автопроверка: '+score()+' из '+state.answers.filter((a,i)=>QUESTIONS[i].kind!=='text').length+' выполненных автоматических заданий','Объяснения: '+state.answers.filter((a,i)=>QUESTIONS[i].kind==='text').length+' (проверяются учителем)','','ОТВЕТЫ И РАЗБОРЫ'];
+ state.answers.forEach((a,i)=>{const q=QUESTIONS[i];lines.push('','№'+(i+1)+' · '+q.title,'Условие: '+q.body, q.math?'Задание: '+q.math:'','Ответ ученика: '+a.answer,'Статус: '+labelStatus(q,a),'Подсказка: '+(a.hintUsed?'использована':'не использована'),q.kind==='text'?'Комментарий: проверяет преподаватель':'Разбор: '+q.explain);});
+ lines.push('','Отчёт сформирован на устройстве ученика. Ответы автоматически не отправляются.');return lines.join('\n');
+}
+function textFile(){return 'Лукьян_ДЗ5_отчёт_'+new Date().toISOString().slice(0,10)+'.txt'}
+function downloadFile(text,filename,type){const blob=new Blob(['\ufeff'+text],{type:type});const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),15000)}
+function printReport(){
+ const p=$('printReport');const h=['<h1>Лукьян — Домашняя работа №5</h1>','<p>Рейс «Код командира» · Интерактивная математическая авиашкола</p>','<p><b>Ученик:</b> '+esc(state.name)+' &nbsp; <b>Начало:</b> '+esc(formatDate(state.startedAt))+' &nbsp; <b>Отчёт:</b> '+esc(formatDate(state.finishedAt||new Date().toISOString()))+'</p>','<p><b>Выполнено:</b> '+state.answers.length+' / '+QUESTIONS.length+' &nbsp; <b>Автопроверка:</b> '+score()+' / '+AUTO_COUNT+' &nbsp; <b>Письменные:</b> '+state.answers.filter((a,i)=>QUESTIONS[i].kind==='text').length+'</p>','<h2>Ответы ученика</h2>'];
+ state.answers.forEach((a,i)=>{const q=QUESTIONS[i];h.push('<div class="pritem"><div class="prtitle">№'+(i+1)+' · '+esc(q.title)+' — <span class="'+(q.kind==='text'?'prmanual':a.correct?'prgood':'prbad')+'">'+esc(labelStatus(q,a))+'</span></div><p>'+esc(q.body)+'</p>'+(q.math?'<p><b>'+esc(q.math)+'</b></p>':'')+'<p><b>Ответ:</b> '+esc(a.answer)+'</p><p class="prsmall">Подсказка: '+(a.hintUsed?'использована':'нет')+'</p>'+(q.kind==='text'?'<p class="prsmall">Проверяет учитель.</p>':'<p class="prsmall">Проверка: '+esc(q.explain)+'</p>')+'</div>')});
+ h.push('<p class="prsmall">Файл сформирован локально. Итоговые оценки письменных заданий выставляет преподаватель.</p>');p.innerHTML=h.join('');return p.innerHTML;
+}
+function downloadHtml(){
+ const body=printReport();const doc='<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Отчёт Лукьяна ДЗ5</title><style>body{font:14px/1.6 Arial,sans-serif;max-width:820px;margin:25px auto;padding:10px 20px;color:#18273b}h1{color:#122a48}.pritem{break-inside:avoid;border:1px solid #bdcede;border-radius:10px;margin:11px 0;padding:13px}.pritem p{white-space:pre-wrap;overflow-wrap:anywhere}.prtitle{font-weight:bold}.prsmall{font-size:12px;color:#667789}.prgood{color:#00754f}.prbad{color:#a1263e}.prmanual{color:#315ca1}@media print{@page{size:A4;margin:14mm}.noprint{display:none}body{margin:0;padding:0;font-size:12px}}</style></head><body><div class="noprint"><button onclick="print()">Печать / Сохранить PDF</button></div>'+body+'</body></html>';
+ downloadFile(doc,'Лукьян_ДЗ5_подробный_отчёт.html','text/html;charset=utf-8');
+}
+function viewFinish(){
+ show('finish');window.scrollTo(0,0);
+ $('finalScore').innerHTML=score()+' <small>/ '+AUTO_COUNT+'</small>';
+ $('scoreMessage').textContent=scoreIntro();$('resultName').textContent=state.name;$('resultStart').textContent=formatDate(state.startedAt);$('resultFinish').textContent=formatDate(state.finishedAt);
+ const el=$('reportPreview');el.innerHTML='';
+ state.answers.forEach((a,i)=>{const q=QUESTIONS[i],div=document.createElement('div');div.className='report-row';const cls=q.kind==='text'?'status-manual':a.correct?'status-ok':'status-bad';div.innerHTML='<h4>№'+(i+1)+' · '+esc(q.title)+' · <span class="'+cls+'">'+esc(labelStatus(q,a))+'</span></h4><p>Твой ответ: <b>'+esc(a.answer)+'</b></p><p>Подсказка: '+(a.hintUsed?'использована':'нет')+'</p>'+(q.kind!=='text'?'<p>Разбор: '+esc(q.explain)+'</p>':'');el.append(div);});
+ printReport();
+}
+async function shareReport(){
+ const txt=reportText();const file=new File(['\ufeff'+txt],textFile(),{type:'text/plain'});
+ try{
+  if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Домашняя работа Лукьяна №5',text:'Бортовой журнал Лукьяна по математике'});return;}
+  if(navigator.share){await navigator.share({title:'Домашняя работа Лукьяна №5',text:txt});return;}
+ }catch(e){if(e&&e.name==='AbortError')return}
+ downloadFile(txt,textFile(),'text/plain;charset=utf-8');
+ $('finishMessage').textContent='В этом браузере отправка недоступна. Отчёт скачан: прикрепи файл к сообщению преподавателю в Telegram.';
+}
+$('startBtn').onclick=()=>{
+ const n=$('studentName').value.trim();if(n.length<2){$('startError').textContent='Впиши имя (не менее двух букв).';return;}
+ state={name:n,startedAt:new Date().toISOString(),finishedAt:null,index:0,answers:[],hints:{}};save();viewQuestion();
+};
+$('hintBtn').onclick=()=>{if(state.answers[state.index])return;state.hints[state.index]=true;save();$('hintText').classList.remove('hidden');$('hintBtn').textContent='Подсказка открыта';};
+$('submitBtn').onclick=submitAnswer;$('nextBtn').onclick=goNext;$('draftBtn').onclick=()=>downloadFile(reportText(),textFile(),'text/plain;charset=utf-8');
+$('shareBtn').onclick=shareReport;$('txtBtn').onclick=()=>downloadFile(reportText(),textFile(),'text/plain;charset=utf-8');
+$('pdfBtn').onclick=()=>{printReport();window.print();};$('htmlBtn').onclick=downloadHtml;
+if(readSave()&&state.startedAt){if(state.index>=QUESTIONS.length)viewFinish();else viewQuestion();}else show('welcome');
+</script>
+</body>
+</html>
